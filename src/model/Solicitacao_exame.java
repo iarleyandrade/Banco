@@ -5,19 +5,29 @@ import java.util.Date;
 public class Solicitacao_exame extends GenericModel {
 	private String nm_prescrito;
 	private Date dt_solicitacao;
+	private int consulta_medica_id;
+	private int habilitacao_exame_id;
+	private int exame_id;
 	
 	
 	
-	public Solicitacao_exame(String nm_prescrito, Date dt_solicitacao) {
+	public Solicitacao_exame(String nm_prescrito, Date dt_solicitacao, int consulta_medica_id, int habilitacao_exame_id, int exame_id) {
 		super();
 		this.nm_prescrito = nm_prescrito;
 		this.dt_solicitacao = dt_solicitacao;
+		this.consulta_medica_id = consulta_medica_id;
+		this.habilitacao_exame_id = habilitacao_exame_id;
+		this.exame_id = exame_id;
+
 	}
 	
-	public Solicitacao_exame(int id,String nm_prescrito, Date dt_solicitacao) {
+	public Solicitacao_exame(int id, String nm_prescrito, Date dt_solicitacao, int consulta_medica_id, int habilitacao_exame_id, int exame_id) {
 		setId(id);
 		this.nm_prescrito = nm_prescrito;
 		this.dt_solicitacao = dt_solicitacao;
+		this.consulta_medica_id = consulta_medica_id;
+		this.habilitacao_exame_id = habilitacao_exame_id;
+		this.exame_id = exame_id;
 	}
 	
 	
@@ -28,9 +38,47 @@ public class Solicitacao_exame extends GenericModel {
 		return dt_solicitacao;
 	}
 	
+	
+	
+	public int getConsulta_medica_id() {
+		return consulta_medica_id;
+	}
+
+	public void setConsulta_medica_id(int consulta_medica_id) {
+		this.consulta_medica_id = consulta_medica_id;
+	}
+
+	public int getHabilitacao_exame_id() {
+		return habilitacao_exame_id;
+	}
+
+	public void setHabilitacao_exame_id(int habilitacao_exame_id) {
+		this.habilitacao_exame_id = habilitacao_exame_id;
+	}
+
+	public void setNm_prescrito(String nm_prescrito) {
+		this.nm_prescrito = nm_prescrito;
+	}
+
+	public void setDt_solicitacao(Date dt_solicitacao) {
+		this.dt_solicitacao = dt_solicitacao;
+	}
+
+	
+
 	@Override
 	public String toString() {
-		return "solicitacao_exame [nm_prescrito=" + nm_prescrito + ", dt_solicitacao=" + dt_solicitacao + "]";
+		return "Solicitacao_exame [nm_prescrito=" + nm_prescrito + ", dt_solicitacao=" + dt_solicitacao
+				+ ", consulta_medica_id=" + consulta_medica_id + ", habilitacao_exame_id=" + habilitacao_exame_id
+				+ ", exame_id=" + exame_id + "]";
+	}
+
+	public int getExame_id() {
+		return exame_id;
+	}
+
+	public void setExame_id(int exame_id) {
+		this.exame_id = exame_id;
 	}
 	
 	

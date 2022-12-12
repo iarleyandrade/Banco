@@ -33,4 +33,12 @@ public class Paciente extends GenericModel{
                 ", dt_nascimento=" + dt_nascimento +
                 '}';
     }
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void setDt_nascimento(Date dt_nascimento) {
+		this.dt_nascimento = dt_nascimento;
+	}
+	
+	
 }

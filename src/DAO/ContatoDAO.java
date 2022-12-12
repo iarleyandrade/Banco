@@ -11,12 +11,12 @@ import model.Contato;
 
 public class ContatoDAO extends ConexaoDB{
 
-	private static final String INSERT_CONTATO_SQL = "INSERT INTO contato (contato) VALUES (?);";
-	private static final String SELECT_CONTATO_BY_ID = "SELECT id, contato WHERE id = ?";
+	private static final String INSERT_CONTATO_SQL = "INSERT INTO contato (telefone, laboratorio_id) VALUES (?, ?);";
+	private static final String SELECT_CONTATO_BY_ID = "SELECT id, laboratorio_id, telefone FROM contato WHERE id = ?";
 	private static final String SELECT_ALL_CONTATO = "SELECT * FROM contato;";
 	private static final String DELETE_CONTATO_SQL = "DELETE FROM contato WHERE id = ?;";
 	private static final String BUSCAR_POR_DESCRICAO_CONTATO_SQL = "DELETE FROM contato WHERE descricao = ?;";
-	private static final String UPDATE_CONTATO_SQL = "UPDATE contato SET telefone = ? WHERE id = ?;";
+	private static final String UPDATE_CONTATO_SQL = "UPDATE contato SET telefone = ?, laboratorio_id = ? WHERE id = ?;";
 	private static final String TOTAL = "SELECT count(1) FROM contato;";
 
 	public Integer count() {
@@ -41,6 +41,8 @@ public class ContatoDAO extends ConexaoDB{
 				java.sql.Statement.RETURN_GENERATED_KEYS)) {
 
 			preparedStatement.setString(1, entidade.getTelefone());
+			preparedStatement.setInt(2, entidade.getLaboratorio_id());
+
 			
 			
 
@@ -131,7 +133,8 @@ public class ContatoDAO extends ConexaoDB{
 		try (PreparedStatement statement = prepararSQL(UPDATE_CONTATO_SQL)) {
 			
 			statement.setString(1, entidade.getTelefone());
-			statement.setLong(2, entidade.getId());
+			statement.setLong(2, entidade.getLaboratorio_id());
+			statement.setLong(3, entidade.getId());
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

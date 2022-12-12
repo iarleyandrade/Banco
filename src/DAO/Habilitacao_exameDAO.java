@@ -10,12 +10,12 @@ import model.Habilitacao_exame;
 
 public class Habilitacao_exameDAO extends ConexaoDB {
 
-	private static final String INSERT_HABILITACAO_EXAME_SQL = "INSERT INTO habilitacao_exame (custo, observacao) VALUES (?, ?);";
-	private static final String SELECT_HABILITACAO_EXAME_BY_ID = "SELECT id, custo, observacao FROM habilitacao_exame WHERE id = ?";
+	private static final String INSERT_HABILITACAO_EXAME_SQL = "INSERT INTO habilitacao_exame (custo, observacao, tipo_exame_id, laboratorio_id) VALUES (?, ?, ?, ?);";
+	private static final String SELECT_HABILITACAO_EXAME_BY_ID = "SELECT id, custo, observacao, tipo_exame_id, laboratorio_id FROM habilitacao_exame WHERE id = ?";
 	private static final String SELECT_ALL_HABILITACAO_EXAME = "SELECT * FROM habilitacao_exame;";
 	private static final String DELETE_HABILITACAO_EXAME_SQL = "DELETE FROM habilitacao_exame WHERE id = ?;";
 	private static final String BUSCAR_POR_DESCRICAO_HABILITACAO_EXAME_SQL = "DELETE FROM habilitacao_exame WHERE descricao = ?;";
-	private static final String UPDATE_HABILITACAO_EXAME_SQL = "UPDATE habilitacao_exame SET custo = ?, observacao = ? WHERE id = ?;";
+	private static final String UPDATE_HABILITACAO_EXAME_SQL = "UPDATE habilitacao_exame SET custo = ?, observacao = ?, tipo_exame_id = ?, laboratorio_id = ? WHERE id = ?;";
 	private static final String TOTAL = "SELECT count(1) FROM habilitacao_exame;";
 
 	public Integer count() {
@@ -41,6 +41,8 @@ public class Habilitacao_exameDAO extends ConexaoDB {
 
 			preparedStatement.setInt(1, entidade.getCusto());
 			preparedStatement.setString(2, entidade.getObservacao());
+			preparedStatement.setInt(3, entidade.getTipo_exame_id());
+			preparedStatement.setInt(4, entidade.getLaboratorio_id());
 
 			preparedStatement.executeUpdate();
 
@@ -64,7 +66,7 @@ public class Habilitacao_exameDAO extends ConexaoDB {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				entidade = new Habilitacao_exame((int) rs.getLong("id"), rs.getString("observacao"), rs.getInt("custo"));
+				entidade = new Habilitacao_exame((int) rs.getLong("id"), rs.getString("observacao"), rs.getInt("custo"), rs.getInt("tipo_exame_id"), rs.getInt("laboratorio_id"));
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -84,7 +86,10 @@ public class Habilitacao_exameDAO extends ConexaoDB {
 			while (rs.next()) {
 				int custo = rs.getInt("custo");
 				String observacao = rs.getString("observacao");
-				entidade = new Habilitacao_exame((int) id, observacao, custo);
+				int tipo_exame_id = rs.getInt("tipo_exame_id");
+				int laboratorio_id = rs.getInt("laboratorio_id");
+
+				entidade = new Habilitacao_exame((int) id, observacao, custo, tipo_exame_id, laboratorio_id);
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -103,7 +108,9 @@ public class Habilitacao_exameDAO extends ConexaoDB {
 				long id = rs.getLong("id");
 				int custo = rs.getInt("custo");
 				String observacao = rs.getString("observacao");
-				entidades.add(new Habilitacao_exame((int) id, observacao, custo));
+				int tipo_exame_id = rs.getInt("tipo_exame_id");
+				int laboratorio_id = rs.getInt("laboratorio_id");
+				entidades.add(new Habilitacao_exame((int) id, observacao, custo, tipo_exame_id, laboratorio_id));
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -127,6 +134,8 @@ public class Habilitacao_exameDAO extends ConexaoDB {
 		try (PreparedStatement statement = prepararSQL(UPDATE_HABILITACAO_EXAME_SQL)) {
 			statement.setInt(1, entidade.getCusto());
 			statement.setString(2, entidade.getObservacao());
+			statement.setInt(3, entidade.getTipo_exame_id());
+			statement.setInt(4, entidade.getLaboratorio_id());
 			statement.setLong(3, entidade.getId());
 
 		} catch (ClassNotFoundException e) {

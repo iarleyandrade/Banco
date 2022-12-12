@@ -28,6 +28,14 @@ public class Tipo_exame extends GenericModel {
 	}
 
 
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
+
 	@Override
 	public String toString() {
 		return "tipo_exame [descricao=" + descricao + ", observacao=" + observacao + "]";

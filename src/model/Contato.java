@@ -9,12 +9,19 @@ public class Contato extends GenericModel {
         this.telefone = telefone;
         this.laboratorio_id = laboratorio_id;
     }
-    public Contato(String telefone, int laboratorio_id) {
+    public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+	public void setLaboratorio_id(int laboratorio_id) {
+		this.laboratorio_id = laboratorio_id;
+	}
+	public Contato(String telefone, int laboratorio_id) {
         super();
         this.telefone = telefone;
         this.laboratorio_id = laboratorio_id;
     }
 
+	
     public String getTelefone() {
         return telefone;
     }
@@ -30,4 +37,5 @@ public class Contato extends GenericModel {
                 ", laboratorio_id=" + laboratorio_id +
                 '}';
     }
+	
 }

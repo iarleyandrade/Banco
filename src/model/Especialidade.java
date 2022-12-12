@@ -23,7 +23,13 @@ public class Especialidade extends GenericModel {
         return descricao;
     }
 
-    @Override
+    public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	@Override
     public String toString() {
         return "Especialidade{" +
                 "observacao='" + observacao + '\'' +

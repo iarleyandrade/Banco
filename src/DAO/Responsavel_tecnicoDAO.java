@@ -10,12 +10,12 @@ import model.Responsavel_tecnico;
 
 public class Responsavel_tecnicoDAO extends ConexaoDB {
 
-	private static final String INSERT_RESPONSAVEL_TECNICO_SQL = "INSERT INTO responsavel_tecnico (nome, formacao, conselho) VALUES (?, ?, ?);";
-	private static final String SELECT_RESPONSAVEL_TECNICO_BY_ID = "SELECT id, nome, formacao, conselho FROM responsavel_tecnico WHERE id = ?";
+	private static final String INSERT_RESPONSAVEL_TECNICO_SQL = "INSERT INTO responsavel_tecnico (nome, formacao, conselho, sigla_formacao_id) VALUES (?, ?, ?, ?);";
+	private static final String SELECT_RESPONSAVEL_TECNICO_BY_ID = "SELECT id, nome, formacao, conselho, sigla_formacao_id FROM responsavel_tecnico WHERE id = ?";
 	private static final String SELECT_ALL_RESPONSAVEL_TECNICO = "SELECT * FROM responsavel_tecnico;";
 	private static final String DELETE_RESPONSAVEL_TECNICO_SQL = "DELETE FROM responsavel_tecnico WHERE id = ?;";
-	private static final String BUSCAR_POR_DESCRICAO_RESPONSAVEL_TECNICO_SQL = "DELETE FROM responsavel_tecnico WHERE descricao = ?;";
-	private static final String UPDATE_RESPONSAVEL_TECNICO_SQL = "UPDATE responsavel_tecnico SET nome = ?, formacao = ?, conselho = ? WHERE id = ?;";
+	//private static final String BUSCAR_POR_DESCRICAO_RESPONSAVEL_TECNICO_SQL = "DELETE FROM responsavel_tecnico WHERE descricao = ?;";
+	private static final String UPDATE_RESPONSAVEL_TECNICO_SQL = "UPDATE responsavel_tecnico SET nome = ?, formacao = ?, conselho = ?, sigla_formacao_id = ? WHERE id = ?;";
 	private static final String TOTAL = "SELECT count(1) FROM responsavel_tecnico;";
 
 	public Integer count() {
@@ -42,6 +42,7 @@ public class Responsavel_tecnicoDAO extends ConexaoDB {
 			preparedStatement.setString(1, entidade.getNome());
 			preparedStatement.setString(2, entidade.getFormacao());
 			preparedStatement.setString(3, entidade.getConselho());
+			preparedStatement.setInt(4, entidade.getSigla_formacao_id());
 			
 
 			preparedStatement.executeUpdate();
@@ -59,14 +60,14 @@ public class Responsavel_tecnicoDAO extends ConexaoDB {
 		return entidade;
 	}
 
-	public Responsavel_tecnico findByDecricao(String descricao) {
+	/* public Responsavel_tecnico findByDecricao(String descricao) {
 		Responsavel_tecnico entidade = null;
 		try (PreparedStatement preparedStatement = prepararSQL(BUSCAR_POR_DESCRICAO_RESPONSAVEL_TECNICO_SQL)) {
 			preparedStatement.setString(1, descricao);
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				entidade = new Responsavel_tecnico((int) rs.getLong("id"), rs.getString("nome"), rs.getString("formacao"), rs.getString("conselho"), rs.getString("sigla_formacao"));
+				entidade = new Responsavel_tecnico((int) rs.getLong("id"), rs.getString("nome"), rs.getString("formacao"), rs.getString("conselho"), rs.getString("sigla_formacao"), rs.getInt("sigla_formacao_id"));
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -76,7 +77,7 @@ public class Responsavel_tecnicoDAO extends ConexaoDB {
 
 		return entidade;
 	}
-
+*/
 	public Responsavel_tecnico findById(long id) {
 		Responsavel_tecnico entidade = null;
 		try (PreparedStatement preparedStatement = prepararSQL(SELECT_RESPONSAVEL_TECNICO_BY_ID)) {
@@ -84,11 +85,12 @@ public class Responsavel_tecnicoDAO extends ConexaoDB {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				String nome = rs.getString("descricao");
+				String nome = rs.getString("nome");
 				String formacao = rs.getString("formacao");
 				String conselho = rs.getString("conselho");
 				String sigla_formacao = rs.getString("sigla_formacao");
-				entidade = new Responsavel_tecnico((int) id, nome, formacao, conselho, sigla_formacao);
+				int sigla_formacao_id = rs.getInt("sigla_formacao_id");
+				entidade = new Responsavel_tecnico((int) id, nome, formacao, conselho, sigla_formacao, sigla_formacao_id);
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -105,11 +107,12 @@ public class Responsavel_tecnicoDAO extends ConexaoDB {
 
 			while (rs.next()) {
 				long id = rs.getLong("id");
-				String nome = rs.getString("descricao");
+				String nome = rs.getString("nome");
 				String formacao = rs.getString("formacao");
 				String conselho = rs.getString("conselho");
 				String sigla_formacao = rs.getString("sigla_formacao");
-				entidades.add(new Responsavel_tecnico((int) id, nome, formacao, conselho, sigla_formacao));
+				int sigla_formacao_id = rs.getInt("sigla_formacao_id");
+				entidades.add(new Responsavel_tecnico((int) id, nome, formacao, conselho, sigla_formacao, sigla_formacao_id));
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -134,8 +137,9 @@ public class Responsavel_tecnicoDAO extends ConexaoDB {
 			statement.setString(1, entidade.getNome());
 			statement.setString(2, entidade.getFormacao());
 			statement.setString(3, entidade.getConselho());
-
-			statement.setLong(4, entidade.getId());
+			statement.setLong(4, entidade.getSigla_formacao_id());
+			statement.setLong(5, entidade.getId());
+			
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

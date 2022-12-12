@@ -42,9 +42,9 @@ public class LaboratorioDAO extends ConexaoDB{
 
 			preparedStatement.setString(1, entidade.getDescricao());
 			preparedStatement.setString(2, entidade.getCNPJ());
-			preparedStatement.setString(4, entidade.getCNES());
-			preparedStatement.setString(5, entidade.getCRBM());
-			preparedStatement.setString(6, entidade.getNome_fantasia());
+			preparedStatement.setString(3, entidade.getCNES());
+			preparedStatement.setString(4, entidade.getCRBM());
+			preparedStatement.setString(5, entidade.getNome_fantasia());
 			
 
 			preparedStatement.executeUpdate();

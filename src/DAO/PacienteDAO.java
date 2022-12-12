@@ -11,12 +11,12 @@ import model.Paciente;
 
 public class PacienteDAO extends ConexaoDB {
 
-	private static final String INSERT_PACIENTE_SQL = "INSERT INTO paciente (name, dt_nascimento) VALUES (?, ?);";
-	private static final String SELECT_PACIENTE_BY_ID = "SELECT id, name, dt_nascimento FROM paciente WHERE id = ?";
+	private static final String INSERT_PACIENTE_SQL = "INSERT INTO paciente (nome, dt_nascimento) VALUES (?, ?);";
+	private static final String SELECT_PACIENTE_BY_ID = "SELECT id, nome, dt_nascimento FROM paciente WHERE id = ?";
 	private static final String SELECT_ALL_PACIENTE = "SELECT * FROM paciente;";
 	private static final String DELETE_PACIENTE_SQL = "DELETE FROM paciente WHERE id = ?;";
 	private static final String BUSCAR_POR_DESCRICAO_PACIENTE_SQL = "DELETE FROM paciente WHERE descricao = ?;";
-	private static final String UPDATE_PACIENTE_SQL = "UPDATE paciente SET name = ?, dt_nascimento = ? WHERE id = ?;";
+	private static final String UPDATE_PACIENTE_SQL = "UPDATE paciente SET nome = ?, dt_nascimento = ? WHERE id = ?;";
 	private static final String TOTAL = "SELECT count(1) FROM paciente;";
 
 	public Integer count() {
@@ -83,7 +83,7 @@ public class PacienteDAO extends ConexaoDB {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				String name = rs.getString("descricao");
+				String name = rs.getString("nome");
 				Date dt_nascimento = rs.getDate("dt_nascimento");
 				entidade = new Paciente((int) id, name, dt_nascimento);
 			}
@@ -102,7 +102,7 @@ public class PacienteDAO extends ConexaoDB {
 
 			while (rs.next()) {
 				long id = rs.getLong("id");
-				String name = rs.getString("descricao");
+				String name = rs.getString("nome");
 				Date dt_nascimento = rs.getDate("dt_nascimento");
 				entidades.add(new Paciente((int) id, name, dt_nascimento));
 			}

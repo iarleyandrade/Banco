@@ -9,7 +9,13 @@ public class Medico extends GenericModel{
         this.crm = crm;
         this.nome = nome;
     }
-    public Medico(String crm, String nome) {
+    public void setCrm(String crm) {
+		this.crm = crm;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public Medico(String crm, String nome) {
         super();
         this.crm = crm;
         this.nome = nome;

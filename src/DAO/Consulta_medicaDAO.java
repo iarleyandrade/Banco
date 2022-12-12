@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,10 +40,10 @@ public class Consulta_medicaDAO extends ConexaoDB {
 	public Consulta_medica insert(Consulta_medica entidade) {
 		try (PreparedStatement preparedStatement = prepararSQL(INSERT_CONSULTA_MEDICA_SQL,
 				java.sql.Statement.RETURN_GENERATED_KEYS)) {
-
-			preparedStatement.setInt(1, entidade.getMedico_id());
-			preparedStatement.setInt(2, entidade.getPaciente_id());
-			preparedStatement.setDate(3, (Date) entidade.getDt_consulta());
+			
+			preparedStatement.setTimestamp(1, new Timestamp(entidade.getDt_consulta().getTime())); 
+			preparedStatement.setInt(2, entidade.getMedico_id());
+			preparedStatement.setInt(3, entidade.getPaciente_id());
 			preparedStatement.setString(4, entidade.getNm_atendimento());
 
 			preparedStatement.executeUpdate();
@@ -88,7 +89,7 @@ public class Consulta_medicaDAO extends ConexaoDB {
 				Date dt_consulta = rs.getDate("dt_consulta");
 				int medico_id = rs.getInt("medico_id");
 				int paciente_id = rs.getInt("paciente_id");
-				String nm_atendimento = rs.getString("observacao");
+				String nm_atendimento = rs.getString("nm_atendimento");
 				entidade = new Consulta_medica((int) id, dt_consulta, medico_id, paciente_id, nm_atendimento);
 			}
 		} catch (SQLException e) {
@@ -109,7 +110,7 @@ public class Consulta_medicaDAO extends ConexaoDB {
 				Date dt_consulta = rs.getDate("dt_consulta");
 				int medico_id = rs.getInt("medico_id");
 				int paciente_id = rs.getInt("paciente_id");
-				String nm_atendimento = rs.getString("observacao");
+				String nm_atendimento = rs.getString("nm_atendimento");
 				entidades.add(new Consulta_medica((int) id, dt_consulta, medico_id, paciente_id, nm_atendimento));
 			}
 		} catch (SQLException e) {
@@ -132,7 +133,7 @@ public class Consulta_medicaDAO extends ConexaoDB {
 
 	public void updateConsulta_medica(Consulta_medica entidade) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(UPDATE_CONSULTA_MEDICA_SQL)) {
-			statement.setDate(1, (Date) entidade.getDt_consulta());
+			statement.setTimestamp(1, new Timestamp(entidade.getDt_consulta().getTime())); 
 			statement.setInt(2, entidade.getMedico_id());
 			statement.setInt(3, entidade.getPaciente_id());
 			statement.setString(4, entidade.getNm_atendimento());

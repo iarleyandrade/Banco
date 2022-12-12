@@ -38,6 +38,19 @@ public class Consulta_medica extends GenericModel{
 		return nm_atendimento;
 	} 
 	
+	
+	public void setDt_consulta(Date dt_consulta) {
+		this.dt_consulta = dt_consulta;
+	}
+	public void setMedico_id(int medico_id) {
+		this.medico_id = medico_id;
+	}
+	public void setPaciente_id(int paciente_id) {
+		this.paciente_id = paciente_id;
+	}
+	public void setNm_atendimento(String nm_atendimento) {
+		this.nm_atendimento = nm_atendimento;
+	}
 	@Override
 	public String toString() {
 		return "consulta_medica [dt_consulta=" + dt_consulta + ", medico_id=" + medico_id + ", paciente_id="

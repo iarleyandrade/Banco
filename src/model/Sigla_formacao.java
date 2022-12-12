@@ -13,7 +13,11 @@ public class Sigla_formacao extends GenericModel {
         this.sigla = sigla;
     }
 
-    public String getSigla() {
+    public void setSigla(String sigla) {
+		this.sigla = sigla;
+	}
+
+	public String getSigla() {
         return sigla;
     }
 

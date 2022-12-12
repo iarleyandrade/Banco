@@ -31,7 +31,35 @@ public class Endereco extends GenericModel {
         this.laboratorio_id = laboratorio_id;
     }
 
-    public String getRua() {
+    public void setRua(String rua) {
+		this.rua = rua;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public void setCEP(String cEP) {
+		CEP = cEP;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+	public void setLaboratorio_id(int laboratorio_id) {
+		this.laboratorio_id = laboratorio_id;
+	}
+
+	public String getRua() {
         return rua;
     }
 
