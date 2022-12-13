@@ -10,12 +10,12 @@ import model.Composicao;
 
 public class ComposicaoDAO extends ConexaoDB {
 
-	private static final String INSERT_COMPOSICAO_SQL = "INSERT INTO composicao (exame_id) VALUES (?);";
-	private static final String SELECT_COMPOSICAO_BY_ID = "SELECT id, exame_id FROM composicao WHERE id = ?";
+	private static final String INSERT_COMPOSICAO_SQL = "INSERT INTO composicao (exame_id, composicao_exame_id, valor_referencia_composicao_exame_id) VALUES (?, ?, ?);";
+	private static final String SELECT_COMPOSICAO_BY_ID = "SELECT id, exame_id, composicao_exame_id, valor_referencia_composicao_exame_id  FROM composicao WHERE id = ?";
 	private static final String SELECT_ALL_COMPOSICAO = "SELECT * FROM composicao;";
 	private static final String DELETE_COMPOSICAO_SQL = "DELETE FROM composicao WHERE id = ?;";
 	private static final String BUSCAR_POR_DESCRICAO_COMPOSICAO_SQL = "DELETE FROM composicao WHERE descricao = ?;";
-	private static final String UPDATE_MARCA_SQL = "UPDATE composicao SET exame_id = ? WHERE id = ?;";
+	private static final String UPDATE_MARCA_SQL = "UPDATE composicao SET exame_id = ?, composicao_exame_id = ?, valor_referencia_composicao_exame_id = ?  WHERE id = ?;";
 	private static final String TOTAL = "SELECT count(1) FROM composicao;";
 
 	public Integer count() {
@@ -40,6 +40,8 @@ public class ComposicaoDAO extends ConexaoDB {
 				java.sql.Statement.RETURN_GENERATED_KEYS)) {
 
 			preparedStatement.setInt(1, entidade.getExame_id());
+			preparedStatement.setInt(2, entidade.getComposicao_exame_id());
+			preparedStatement.setInt(3, entidade.getValor_referencia_composicao_exame());
 			
 
 			preparedStatement.executeUpdate();
@@ -64,7 +66,7 @@ public class ComposicaoDAO extends ConexaoDB {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				entidade = new Composicao((int) rs.getLong("id"), rs.getInt("exame_id"));
+				entidade = new Composicao((int) rs.getLong("id"), rs.getInt("exame_id"), rs.getInt("composicao_exame_id"), rs.getInt("valor_referencia_composicao_exame_id"));
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -83,8 +85,10 @@ public class ComposicaoDAO extends ConexaoDB {
 
 			while (rs.next()) {
 				int exame_id = rs.getInt("descricao");
+				int composicao_exame_id = rs.getInt("composicao_exame_id");
+				int valor_referencia_composicao_exame = rs.getInt("valor_referencia_composicao_exame_id");
 				
-				entidade = new Composicao((int) id, exame_id);
+				entidade = new Composicao((int) id, exame_id, composicao_exame_id, valor_referencia_composicao_exame);
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -100,10 +104,13 @@ public class ComposicaoDAO extends ConexaoDB {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				long id = rs.getLong("id");
+				long id = rs.getLong("id");			
+				int exame_id = rs.getInt("exame_id");
+				int composicao_exame_id = rs.getInt("composicao_exame_id");
+				int valor_referencia_composicao_exame = rs.getInt("valor_referencia_composicao_exame_id");
 				
-				int exame_id = rs.getInt("descricao");
-				entidades.add(new Composicao((int) id, exame_id));
+				
+				entidades.add(new Composicao((int) id, exame_id, composicao_exame_id, valor_referencia_composicao_exame));
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -126,8 +133,10 @@ public class ComposicaoDAO extends ConexaoDB {
 	public void updateComposicao(Composicao entidade) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(UPDATE_MARCA_SQL)) {
 			statement.setInt(1, entidade.getExame_id());
+			statement.setInt(2, entidade.getComposicao_exame_id());
+			statement.setInt(3, entidade.getValor_referencia_composicao_exame());
 			
-			statement.setLong(2, entidade.getId());
+			statement.setLong(4, entidade.getId());
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

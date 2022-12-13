@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,12 +12,12 @@ import model.Resultado_exame;
 
 public class Resultado_exameDAO extends ConexaoDB {
 
-	private static final String INSERT_RESULTADO_EXAME_SQL = "INSERT INTO resultado_exame (dt_exame, valor) VALUES (?, ?);";
-	private static final String SELECT_RESULTADO_EXAME_BY_ID = "SELECT id, dt_exame, valor FROM resultado_exame WHERE id = ?";
+	private static final String INSERT_RESULTADO_EXAME_SQL = "INSERT INTO resultado_exame (dt_exame, valor, composicao_id, laudo_id) VALUES (?, ?, ?, ?);";
+	private static final String SELECT_RESULTADO_EXAME_BY_ID = "SELECT id, dt_exame, valor, composicao_id, laudo_id FROM resultado_exame WHERE id = ?";
 	private static final String SELECT_ALL_RESULTADO_EXAME = "SELECT * FROM resultado_exame;";
 	private static final String DELETE_RESULTADO_EXAME_SQL = "DELETE FROM resultado_exame WHERE id = ?;";
 	private static final String BUSCAR_POR_DESCRICAO_RESULTADO_EXAME_SQL = "DELETE FROM resultado_exame WHERE descricao = ?;";
-	private static final String UPDATE_RESULTADO_EXAME_SQL = "UPDATE resultado_exame SET dt_exame = ?, valor = ? WHERE id = ?;";
+	private static final String UPDATE_RESULTADO_EXAME_SQL = "UPDATE resultado_exame SET dt_exame = ?, valor = ?, composicao_id = ?, laudo_id = ? WHERE id = ?;";
 	private static final String TOTAL = "SELECT count(1) FROM resultado_exame;";
 
 	public Integer count() {
@@ -40,8 +41,11 @@ public class Resultado_exameDAO extends ConexaoDB {
 		try (PreparedStatement preparedStatement = prepararSQL(INSERT_RESULTADO_EXAME_SQL,
 				java.sql.Statement.RETURN_GENERATED_KEYS)) {
 
-			preparedStatement.setDate(1, (Date) entidade.getDt_exame());
+			preparedStatement.setTimestamp(1, new Timestamp(entidade.getDt_exame().getTime()));
 			preparedStatement.setString(2, entidade.getValor());
+			preparedStatement.setInt(3, entidade.getComposicao_id());
+			preparedStatement.setInt(4, entidade.getLaudo_id());
+
 
 			preparedStatement.executeUpdate();
 
@@ -65,7 +69,7 @@ public class Resultado_exameDAO extends ConexaoDB {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				entidade = new Resultado_exame((int) rs.getLong("id"), rs.getDate("dt_exame"), rs.getString("valor"));
+				entidade = new Resultado_exame((int) rs.getLong("id"), rs.getDate("dt_exame"), rs.getString("valor"), rs.getInt("composicao_id"), rs.getInt("laudo_id"));
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -85,7 +89,10 @@ public class Resultado_exameDAO extends ConexaoDB {
 			while (rs.next()) {
 				Date dt_exame = rs.getDate("dt_exame");
 				String valor = rs.getString("valor");
-				entidade = new Resultado_exame((int) id, dt_exame, valor);
+				int composicao_id = rs.getInt("composicao_id");
+				int laudo_id = rs.getInt("laudo_id");
+				
+				entidade = new Resultado_exame((int) id, dt_exame, valor, composicao_id, laudo_id);
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -95,7 +102,7 @@ public class Resultado_exameDAO extends ConexaoDB {
 		return entidade;
 	}
 
-	public List<Resultado_exame> selectAllMarcas() {
+	public List<Resultado_exame> selectAllResultado_exames() {
 		List<Resultado_exame> entidades = new ArrayList<>();
 		try (PreparedStatement preparedStatement = prepararSQL(SELECT_ALL_RESULTADO_EXAME)) {
 			ResultSet rs = preparedStatement.executeQuery();
@@ -104,7 +111,10 @@ public class Resultado_exameDAO extends ConexaoDB {
 				long id = rs.getLong("id");
 				Date dt_exame = rs.getDate("dt_exame");
 				String valor = rs.getString("valor");
-				entidades.add(new Resultado_exame((int) id, dt_exame, valor));
+				int composicao_id = rs.getInt("composicao_id");
+				int laudo_id = rs.getInt("laudo_id");
+
+				entidades.add(new Resultado_exame((int) id, dt_exame, valor, composicao_id, laudo_id));
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -124,14 +134,20 @@ public class Resultado_exameDAO extends ConexaoDB {
 		}
 	}
 
-	public void updateResultado_exame(Resultado_exame entidade) throws SQLException {
+	public boolean updateResultado_exame(Resultado_exame entidade) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(UPDATE_RESULTADO_EXAME_SQL)) {
-			statement.setDate(1, (Date) entidade.getDt_exame());
+			statement.setTimestamp(1, new Timestamp(entidade.getDt_exame().getTime()));
 			statement.setString(2, entidade.getValor());
-			statement.setLong(3, entidade.getId());
+			statement.setInt(3, entidade.getComposicao_id());
+			statement.setInt(4, entidade.getLaudo_id());
 
+			statement.setLong(5, entidade.getId());
+
+			return statement.executeUpdate() > 0;
+			
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
+		
 	}
 }

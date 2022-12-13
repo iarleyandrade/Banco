@@ -10,12 +10,12 @@ import model.Laudo;
 
 public class LaudoDAO extends ConexaoDB {
 
-	private static final String INSERT_LAUDO_SQL = "INSERT INTO laudo (assinatura_digital, dt_resultado, codigo) VALUES (?, ?, ?);";
-	private static final String SELECT_LAUDO_BY_ID = "SELECT id, assinatura_digital, dt_resultado, codigo FROM laudo WHERE id = ?";
+	private static final String INSERT_LAUDO_SQL = "INSERT INTO laudo (assinatura_digital, dt_resultado, codigo, solicitacao_exame_id) VALUES (?, ?, ?, ?);";
+	private static final String SELECT_LAUDO_BY_ID = "SELECT id, assinatura_digital, dt_resultado, codigo, solicitacao_exame_id FROM laudo WHERE id = ?";
 	private static final String SELECT_ALL_LAUDO = "SELECT * FROM laudo;";
 	private static final String DELETE_LAUDO_SQL = "DELETE FROM laudo WHERE id = ?;";
 	private static final String BUSCAR_POR_DESCRICAO_LAUDO_SQL = "DELETE FROM laudo WHERE descricao = ?;";
-	private static final String UPDATE_LAUDO_SQL = "UPDATE laudo SET assinatura_digital = ?, dt_resultado = ?, codigo = ? WHERE id = ?;";
+	private static final String UPDATE_LAUDO_SQL = "UPDATE laudo SET assinatura_digital = ?, dt_resultado = ?, codigo = ?, solicitacao_exame_id = ? WHERE id = ?;";
 	private static final String TOTAL = "SELECT count(1) FROM laudo;";
 
 	public Integer count() {
@@ -42,6 +42,8 @@ public class LaudoDAO extends ConexaoDB {
 			preparedStatement.setString(1, entidade.getAssinatura_digital());
 			preparedStatement.setString(2, entidade.getDt_resultado());
 			preparedStatement.setString(3, entidade.getCodigo());
+			preparedStatement.setInt(4, entidade.getSolicitacao_exame_id());
+
 
 			preparedStatement.executeUpdate();
 
@@ -65,7 +67,7 @@ public class LaudoDAO extends ConexaoDB {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				entidade = new Laudo((int) rs.getLong("id"), rs.getString("assinatura_digital"), rs.getString("dt_resultado"), rs.getString("codigo"));
+				entidade = new Laudo((int) rs.getLong("id"), rs.getString("assinatura_digital"), rs.getString("dt_resultado"), rs.getString("codigo"), rs.getInt("solicitacao_exame_id"));
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -86,7 +88,8 @@ public class LaudoDAO extends ConexaoDB {
 				String assinatura_digital = rs.getString("assinatura_digital");
 				String dt_resultado = rs.getString("dt_resultado");
 				String codigo = rs.getString("codigo");
-				entidade = new Laudo((int) id, assinatura_digital, dt_resultado, codigo);
+				int solicitacao_exame_id = rs.getInt("solicitacao_exame_id");
+				entidade = new Laudo((int) id, assinatura_digital, dt_resultado, codigo, solicitacao_exame_id);
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -106,7 +109,9 @@ public class LaudoDAO extends ConexaoDB {
 				String assinatura_digital = rs.getString("assinatura_digital");
 				String dt_resultado = rs.getString("dt_resultado");
 				String codigo = rs.getString("codigo");
-				entidades.add(new Laudo((int) id, assinatura_digital, dt_resultado, codigo));
+				int solicitacao_exame_id = rs.getInt("solicitacao_exame_id");
+				
+				entidades.add(new Laudo((int) id, assinatura_digital, dt_resultado, codigo, solicitacao_exame_id));
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -131,7 +136,8 @@ public class LaudoDAO extends ConexaoDB {
 			statement.setString(1, entidade.getAssinatura_digital());
 			statement.setString(2, entidade.getDt_resultado());
 			statement.setString(3, entidade.getCodigo());
-			statement.setLong(4, entidade.getId());
+			statement.setInt(4, entidade.getSolicitacao_exame_id());
+			statement.setLong(5, entidade.getId());
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

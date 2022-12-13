@@ -66,9 +66,13 @@ public class Exame extends GenericModel {
 		this.material_exame_id = material_exame_id;
 	}
 
+	public void pegarID() {
+		System.out.print("ID do exame = "+super.getId());
+	}
+	
 	@Override
 	public String toString() {
-		return "exame [descricao=" + descricao + ", metodo=" + metodo + "]";
+		return "exame [descricao=" + descricao + ", metodo=" + metodo + " ]";
 	}
 	
 	

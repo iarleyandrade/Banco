@@ -13,6 +13,8 @@ public class TesteExame {
     static ServicoExame servicoServicoExame = new ServicoExame();
 
     public static void main(String[] args) throws SQLException {
+    	
+    	
 
         //count
         System.out.println(exameDAO.count());
@@ -21,6 +23,8 @@ public class TesteExame {
         Exame exame = new Exame("descricao: é um teste", "o metodo é esse",1,1);
         servicoServicoExame.salvar(exame);
 
+        //exame.pegarID();
+        
         //buscar por ID
         Exame tipoExame2 = exameDAO.findById(2);
         System.out.println(tipoExame2);
