@@ -26,6 +26,9 @@ public class Responsavel_tecnico_has_laboratorioDAO extends ConexaoDB {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -48,6 +51,9 @@ public class Responsavel_tecnico_has_laboratorioDAO extends ConexaoDB {
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -66,6 +72,9 @@ public class Responsavel_tecnico_has_laboratorioDAO extends ConexaoDB {
 			while (rs.next()) {
 				entidade = new Responsavel_tecnico_has_laboratorio((int) rs.getLong("id"), rs.getInt("responsavel_tecnico_id"), rs.getInt("laboratorio_id"));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -86,6 +95,9 @@ public class Responsavel_tecnico_has_laboratorioDAO extends ConexaoDB {
 				int laboratorio_id = rs.getInt("laboratorio_id");
 				entidade = new Responsavel_tecnico_has_laboratorio((int) id, responsavel_tecnico_id, laboratorio_id);
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -105,6 +117,9 @@ public class Responsavel_tecnico_has_laboratorioDAO extends ConexaoDB {
 				int laboratorio_id = rs.getInt("laboratorio_id");
 				entidades.add(new Responsavel_tecnico_has_laboratorio((int) id, responsavel_tecnico_id, laboratorio_id));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -113,11 +128,12 @@ public class Responsavel_tecnico_has_laboratorioDAO extends ConexaoDB {
 		return entidades;
 	}
 
-	public boolean deleteResponsavel_tecnico_has_laboratorio(int id) throws SQLException {
+	public void deleteResponsavel_tecnico_has_laboratorio(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_RESPONSAVEL_TECNICO_HAS_LABORATORIO_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -128,6 +144,9 @@ public class Responsavel_tecnico_has_laboratorioDAO extends ConexaoDB {
 			statement.setInt(1, entidade.getLaboratorio_id());
 			statement.setInt(2, entidade.getResponsavel_tecnico_id());
 			statement.setLong(3, entidade.getId());
+			
+			statement.executeUpdate();
+			statement.getConnection().close();
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

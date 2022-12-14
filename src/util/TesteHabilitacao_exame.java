@@ -18,7 +18,7 @@ public class TesteHabilitacao_exame {
         System.out.println(habilitacaoExameDAO.count());
 
         //salva
-        Habilitacao_exame habilitacaoExame = new Habilitacao_exame("Observacao", 15, 1,1);
+        Habilitacao_exame habilitacaoExame = new Habilitacao_exame("apenas observo", 15, 1,1);
         servicoHabilitacaoExame.salvar(habilitacaoExame);
 
         //buscar por ID

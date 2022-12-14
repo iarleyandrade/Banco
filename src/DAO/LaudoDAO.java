@@ -26,6 +26,9 @@ public class LaudoDAO extends ConexaoDB {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -51,6 +54,9 @@ public class LaudoDAO extends ConexaoDB {
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -69,6 +75,9 @@ public class LaudoDAO extends ConexaoDB {
 			while (rs.next()) {
 				entidade = new Laudo((int) rs.getLong("id"), rs.getString("assinatura_digital"), rs.getString("dt_resultado"), rs.getString("codigo"), rs.getInt("solicitacao_exame_id"));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -91,6 +100,9 @@ public class LaudoDAO extends ConexaoDB {
 				int solicitacao_exame_id = rs.getInt("solicitacao_exame_id");
 				entidade = new Laudo((int) id, assinatura_digital, dt_resultado, codigo, solicitacao_exame_id);
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -113,6 +125,9 @@ public class LaudoDAO extends ConexaoDB {
 				
 				entidades.add(new Laudo((int) id, assinatura_digital, dt_resultado, codigo, solicitacao_exame_id));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -121,11 +136,12 @@ public class LaudoDAO extends ConexaoDB {
 		return entidades;
 	}
 
-	public boolean deleteLaudo(int id) throws SQLException {
+	public void deleteLaudo(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_LAUDO_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -139,6 +155,9 @@ public class LaudoDAO extends ConexaoDB {
 			statement.setInt(4, entidade.getSolicitacao_exame_id());
 			statement.setLong(5, entidade.getId());
 
+			statement.executeUpdate();
+			statement.getConnection().close();
+			
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}

@@ -26,6 +26,9 @@ public class EspecialidadeDAO extends ConexaoDB {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -48,6 +51,9 @@ public class EspecialidadeDAO extends ConexaoDB {
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -66,6 +72,9 @@ public class EspecialidadeDAO extends ConexaoDB {
 			while (rs.next()) {
 				entidade = new Especialidade((int) rs.getLong("id"), rs.getString("descricao"), rs.getString("observacao"));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -86,6 +95,9 @@ public class EspecialidadeDAO extends ConexaoDB {
 				String observacao = rs.getString("observacao");
 				entidade = new Especialidade((int) id, descricao, observacao);
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -105,6 +117,8 @@ public class EspecialidadeDAO extends ConexaoDB {
 				String observacao = rs.getString("observacao");
 				entidades.add(new Especialidade((int) id, descricao, observacao));
 			}
+			
+			preparedStatement.getConnection().close();
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -113,11 +127,12 @@ public class EspecialidadeDAO extends ConexaoDB {
 		return entidades;
 	}
 
-	public boolean deleteEspecialidade(int id) throws SQLException {
+	public void deleteEspecialidade(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_ESPECIALIDADE_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -128,6 +143,9 @@ public class EspecialidadeDAO extends ConexaoDB {
 			statement.setString(1, entidade.getDescricao());
 			statement.setString(2, entidade.getObservacao());
 			statement.setLong(3, entidade.getId());
+			
+			statement.executeUpdate();
+			statement.getConnection().close();
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

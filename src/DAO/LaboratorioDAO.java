@@ -12,7 +12,7 @@ import model.Laboratorio;
 public class LaboratorioDAO extends ConexaoDB{
 
 	private static final String INSERT_LABORATORIO_SQL = "INSERT INTO laboratorio (descricao, CNPJ, CNES, CRBM, nome_fantasia) VALUES (?, ?, ?, ?, ?);";
-	private static final String SELECT_LABORATORIO_BY_ID = "SELECT id, descricao, CNPJ, CNES, CRBM FROM laboratorio WHERE id = ?";
+	private static final String SELECT_LABORATORIO_BY_ID = "SELECT id, descricao, CNPJ, CNES, CRBM, nome_fantasia FROM laboratorio WHERE id = ?";
 	private static final String SELECT_ALL_LABORATORIO = "SELECT * FROM laboratorio;";
 	private static final String DELETE_LABORATORIO_SQL = "DELETE FROM laboratorio WHERE id = ?;";
 	private static final String BUSCAR_POR_DESCRICAO_LABORATORIO_SQL = "DELETE FROM laboratorio WHERE descricao = ?;";
@@ -27,6 +27,9 @@ public class LaboratorioDAO extends ConexaoDB{
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -53,6 +56,9 @@ public class LaboratorioDAO extends ConexaoDB{
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -71,6 +77,9 @@ public class LaboratorioDAO extends ConexaoDB{
 			while (rs.next()) {
 				entidade = new Laboratorio((int) rs.getLong("id"), rs.getString("descricao"), rs.getString("CNPJ"),rs.getString("CNES"),rs.getString("CRBM"),rs.getString("nome_fantasia"));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -94,6 +103,9 @@ public class LaboratorioDAO extends ConexaoDB{
 				String nome_fantasia = rs.getString("nome_fantasia");
 				entidade = new Laboratorio((int) id, descricao, CNPJ, CNES,CRBM,nome_fantasia );
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -116,6 +128,9 @@ public class LaboratorioDAO extends ConexaoDB{
 				String nome_fantasia = rs.getString("nome_fantasia");
 				entidades.add(new Laboratorio((int) id, descricao, CNPJ, CNES,CRBM,nome_fantasia ));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -124,11 +139,12 @@ public class LaboratorioDAO extends ConexaoDB{
 		return entidades;
 	}
 
-	public boolean deleteLaboratorio(int id) throws SQLException {
+	public void deleteLaboratorio(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_LABORATORIO_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -142,6 +158,9 @@ public class LaboratorioDAO extends ConexaoDB{
 			statement.setString(4, entidade.getCRBM());
 			statement.setString(5, entidade.getNome_fantasia());
 			statement.setLong(6, entidade.getId());
+			
+			statement.executeUpdate();
+			statement.getConnection().close();
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

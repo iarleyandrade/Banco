@@ -26,6 +26,9 @@ public class EnderecoDAO extends ConexaoDB {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -53,6 +56,9 @@ public class EnderecoDAO extends ConexaoDB {
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -71,6 +77,9 @@ public class EnderecoDAO extends ConexaoDB {
 			while (rs.next()) {
 				entidade = new Endereco((int) rs.getLong("id"), rs.getString("rua"), rs.getString("numero"), rs.getString("complemento"), rs.getString("bairro"), rs.getString("CEP"), rs.getString("cidade"), rs.getInt("laboratorio_id"));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -97,6 +106,9 @@ public class EnderecoDAO extends ConexaoDB {
 				
 				entidade = new Endereco(id, rua, numero, complemento, bairro, CEP, cidade, laboratorio_id);
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -121,6 +133,8 @@ public class EnderecoDAO extends ConexaoDB {
 				int laboratorio_id = rs.getInt("laboratorio_id");
 				entidades.add(new Endereco((int) id, rua, numero, complemento, bairro, CEP, cidade, laboratorio_id));
 			}
+			
+			preparedStatement.getConnection().close();
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -129,11 +143,12 @@ public class EnderecoDAO extends ConexaoDB {
 		return entidades;
 	}
 
-	public boolean deleteEndereco(int id) throws SQLException {
+	public void deleteEndereco(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_ENDERECO_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -149,6 +164,9 @@ public class EnderecoDAO extends ConexaoDB {
 			statement.setString(6, entidade.getCidade());
 			statement.setLong(7, entidade.getId());
 
+			statement.executeUpdate();
+			statement.getConnection().close();
+			
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}

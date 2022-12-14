@@ -26,6 +26,9 @@ public class Sigla_formacaoDAO extends ConexaoDB {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -48,6 +51,9 @@ public class Sigla_formacaoDAO extends ConexaoDB {
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -66,6 +72,9 @@ public class Sigla_formacaoDAO extends ConexaoDB {
 			while (rs.next()) {
 				entidade = new Sigla_formacao((int) rs.getLong("id"), rs.getString("sigla"));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -86,6 +95,9 @@ public class Sigla_formacaoDAO extends ConexaoDB {
 			
 				entidade = new Sigla_formacao((int) id, sigla);
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -105,6 +117,8 @@ public class Sigla_formacaoDAO extends ConexaoDB {
 				
 				entidades.add(new Sigla_formacao((int) id, sigla));
 			}
+			
+			preparedStatement.getConnection().close();
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -113,11 +127,12 @@ public class Sigla_formacaoDAO extends ConexaoDB {
 		return entidades;
 	}
 
-	public boolean deleteSigla_formacao(int id) throws SQLException {
+	public void deleteSigla_formacao(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_SIGLA_FORMACAO_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -127,6 +142,9 @@ public class Sigla_formacaoDAO extends ConexaoDB {
 		try (PreparedStatement statement = prepararSQL(UPDATE_SIGLA_FORMACAO_SQL)) {
 			statement.setString(1, entidade.getSigla());			
 			statement.setLong(2, entidade.getId());
+			
+			statement.executeUpdate();
+			statement.getConnection().close();
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

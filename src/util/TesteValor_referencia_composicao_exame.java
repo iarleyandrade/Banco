@@ -18,7 +18,7 @@ public class TesteValor_referencia_composicao_exame {
         System.out.println(valorReferenciaComposicaoExameDAO.count());
 
         //salva
-        Valor_referencia_composicao_exame valorReferenciaComposicaoExame = new Valor_referencia_composicao_exame("10","500","165","442",1);
+        Valor_referencia_composicao_exame valorReferenciaComposicaoExame = new Valor_referencia_composicao_exame("5","50","200","233",1);
         servicoValorReferenciaComposicaoExame.salvar(valorReferenciaComposicaoExame);
 
         //buscar por ID
@@ -26,7 +26,7 @@ public class TesteValor_referencia_composicao_exame {
         System.out.println(tipoExame2);
 
         //Update
-        valorReferenciaComposicaoExame.setValor_maximo("750");
+        valorReferenciaComposicaoExame.setValor_maximo("200");
         valorReferenciaComposicaoExameDAO.updateValor_referencia_composicao_exame(valorReferenciaComposicaoExame);
         valorReferenciaComposicaoExame = valorReferenciaComposicaoExameDAO.findById(2);
         System.out.println(valorReferenciaComposicaoExame);

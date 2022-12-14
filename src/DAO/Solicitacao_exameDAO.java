@@ -28,6 +28,9 @@ public class Solicitacao_exameDAO extends ConexaoDB {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -54,6 +57,9 @@ public class Solicitacao_exameDAO extends ConexaoDB {
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -72,6 +78,9 @@ public class Solicitacao_exameDAO extends ConexaoDB {
 			while (rs.next()) {
 				entidade = new Solicitacao_exame((int) rs.getLong("id"), rs.getString("nm_prescrito"), rs.getDate("dt_solicitacao"), rs.getInt("consulta_medica_id"), rs.getInt("habilitacao_exame_id"), rs.getInt("exame_id"));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -90,13 +99,16 @@ public class Solicitacao_exameDAO extends ConexaoDB {
 			while (rs.next()) {
 				String nm_prescrito = rs.getString("nm_prescrito");
 				Date dt_solicitacao = rs.getDate("dt_solicitacao");
-				int cosulta_medica_id = rs.getInt("cosulta_medica_id");
+				int consulta_medica_id = rs.getInt("consulta_medica_id");
 				int habilitacao_exame_id = rs.getInt("habilitacao_exame_id");
 				int exame_id = rs.getInt("exame_id");
 
 
-				entidade = new Solicitacao_exame((int) id, nm_prescrito, dt_solicitacao, cosulta_medica_id, habilitacao_exame_id, exame_id);
+				entidade = new Solicitacao_exame((int) id, nm_prescrito, dt_solicitacao, consulta_medica_id, habilitacao_exame_id, exame_id);
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -114,12 +126,14 @@ public class Solicitacao_exameDAO extends ConexaoDB {
 				long id = rs.getLong("id");
 				String nm_prescrito = rs.getString("nm_prescrito");
 				Date dt_solicitacao = rs.getDate("dt_solicitacao");
-				int cosulta_medica_id = rs.getInt("cosulta_medica_id");
+				int consulta_medica_id = rs.getInt("consulta_medica_id");
 				int habilitacao_exame_id = rs.getInt("habilitacao_exame_id");
 				int exame_id = rs.getInt("exame_id");
 
-				entidades.add(new Solicitacao_exame((int) id, nm_prescrito, dt_solicitacao, cosulta_medica_id, habilitacao_exame_id, exame_id));
+				entidades.add(new Solicitacao_exame((int) id, nm_prescrito, dt_solicitacao, consulta_medica_id, habilitacao_exame_id, exame_id));
 			}
+			
+			preparedStatement.getConnection().close();
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -128,11 +142,13 @@ public class Solicitacao_exameDAO extends ConexaoDB {
 		return entidades;
 	}
 
-	public boolean deleteSolicitacao_exame(int id) throws SQLException {
+	public void deleteSolicitacao_exame(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_SOLICITACAO_EXAME_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
+
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -148,6 +164,9 @@ public class Solicitacao_exameDAO extends ConexaoDB {
 			statement.setInt(5, entidade.getExame_id());
 
 			statement.setLong(6, entidade.getId());
+			
+			statement.executeUpdate();
+			statement.getConnection().close();
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

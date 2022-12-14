@@ -26,6 +26,9 @@ public class MedicoDAO extends ConexaoDB {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -48,6 +51,9 @@ public class MedicoDAO extends ConexaoDB {
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -66,6 +72,9 @@ public class MedicoDAO extends ConexaoDB {
 			while (rs.next()) {
 				entidade = new Medico((int) rs.getLong("id"), rs.getString("crm"), rs.getString("nome"));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -86,6 +95,9 @@ public class MedicoDAO extends ConexaoDB {
 				String crm = rs.getString("crm");
 				entidade = new Medico((int) id, crm, nome);
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -105,6 +117,8 @@ public class MedicoDAO extends ConexaoDB {
 				String crm = rs.getString("crm");
 				entidades.add(new Medico((int) id, crm, nome));
 			}
+			
+			preparedStatement.getConnection().close();
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -113,11 +127,12 @@ public class MedicoDAO extends ConexaoDB {
 		return entidades;
 	}
 
-	public boolean deleteMedico(int id) throws SQLException {
+	public void deleteMedico(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_MEDICO_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -128,6 +143,9 @@ public class MedicoDAO extends ConexaoDB {
 			statement.setString(1, entidade.getNome());
 			statement.setString(2, entidade.getCrm());
 			statement.setLong(3, entidade.getId());
+			
+			statement.executeUpdate();
+			statement.getConnection().close();
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

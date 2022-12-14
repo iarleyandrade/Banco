@@ -26,6 +26,9 @@ public class Responsavel_tecnicoDAO extends ConexaoDB {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -51,6 +54,9 @@ public class Responsavel_tecnicoDAO extends ConexaoDB {
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -92,6 +98,9 @@ public class Responsavel_tecnicoDAO extends ConexaoDB {
 				int sigla_formacao_id = rs.getInt("sigla_formacao_id");
 				entidade = new Responsavel_tecnico((int) id, nome, formacao, conselho, sigla_formacao, sigla_formacao_id);
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -114,6 +123,8 @@ public class Responsavel_tecnicoDAO extends ConexaoDB {
 				int sigla_formacao_id = rs.getInt("sigla_formacao_id");
 				entidades.add(new Responsavel_tecnico((int) id, nome, formacao, conselho, sigla_formacao, sigla_formacao_id));
 			}
+			
+			preparedStatement.getConnection().close();
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -122,11 +133,12 @@ public class Responsavel_tecnicoDAO extends ConexaoDB {
 		return entidades;
 	}
 
-	public boolean deleteResponsavel_tecnico(int id) throws SQLException {
+	public void deleteResponsavel_tecnico(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_RESPONSAVEL_TECNICO_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -139,6 +151,9 @@ public class Responsavel_tecnicoDAO extends ConexaoDB {
 			statement.setString(3, entidade.getConselho());
 			statement.setLong(4, entidade.getSigla_formacao_id());
 			statement.setLong(5, entidade.getId());
+			
+			statement.executeUpdate();
+			statement.getConnection().close();
 			
 
 		} catch (ClassNotFoundException e) {

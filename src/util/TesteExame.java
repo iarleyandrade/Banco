@@ -20,7 +20,7 @@ public class TesteExame {
         System.out.println(exameDAO.count());
 
         //salva
-        Exame exame = new Exame("descricao: é um teste", "o metodo é esse",1,1);
+        Exame exame = new Exame("descricao: novamente um teste boy", "o metodo é bom!",1,1);
         servicoServicoExame.salvar(exame);
 
         //exame.pegarID();
@@ -30,7 +30,7 @@ public class TesteExame {
         System.out.println(tipoExame2);
 
         //Update
-        exame.setDescricao("Descricao: novo teste");
+        exame.setDescricao("Descricao: teste novo boy");
         exameDAO.updateExame(exame);
         exame = exameDAO.findById(2);
         System.out.println(exame);

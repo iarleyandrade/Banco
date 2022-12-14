@@ -27,6 +27,9 @@ public class ContatoDAO extends ConexaoDB{
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -52,6 +55,9 @@ public class ContatoDAO extends ConexaoDB{
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -70,6 +76,9 @@ public class ContatoDAO extends ConexaoDB{
 			while (rs.next()) {
 				entidade = new Contato((int) rs.getLong("id"), rs.getString("telefone"), rs.getInt("laboratorio_id"));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -91,6 +100,9 @@ public class ContatoDAO extends ConexaoDB{
 				
 				entidade = new Contato((int) id, telefone, laboratorio_id );
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -111,6 +123,9 @@ public class ContatoDAO extends ConexaoDB{
 				
 				entidades.add(new Contato((int) id, telefone, laboratorio_id ));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -119,11 +134,12 @@ public class ContatoDAO extends ConexaoDB{
 		return entidades;
 	}
 
-	public boolean deleteContato(int id) throws SQLException {
+	public void deleteContato(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_CONTATO_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -135,6 +151,9 @@ public class ContatoDAO extends ConexaoDB{
 			statement.setString(1, entidade.getTelefone());
 			statement.setLong(2, entidade.getLaboratorio_id());
 			statement.setLong(3, entidade.getId());
+			
+			statement.executeUpdate();
+			statement.getConnection().close();
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

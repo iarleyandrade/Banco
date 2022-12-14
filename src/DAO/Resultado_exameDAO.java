@@ -28,6 +28,9 @@ public class Resultado_exameDAO extends ConexaoDB {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -53,6 +56,9 @@ public class Resultado_exameDAO extends ConexaoDB {
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -71,6 +77,9 @@ public class Resultado_exameDAO extends ConexaoDB {
 			while (rs.next()) {
 				entidade = new Resultado_exame((int) rs.getLong("id"), rs.getDate("dt_exame"), rs.getString("valor"), rs.getInt("composicao_id"), rs.getInt("laudo_id"));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -94,6 +103,9 @@ public class Resultado_exameDAO extends ConexaoDB {
 				
 				entidade = new Resultado_exame((int) id, dt_exame, valor, composicao_id, laudo_id);
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -116,6 +128,8 @@ public class Resultado_exameDAO extends ConexaoDB {
 
 				entidades.add(new Resultado_exame((int) id, dt_exame, valor, composicao_id, laudo_id));
 			}
+			
+			preparedStatement.getConnection().close();
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -124,17 +138,18 @@ public class Resultado_exameDAO extends ConexaoDB {
 		return entidades;
 	}
 
-	public boolean deleteResultado_exame(int id) throws SQLException {
+	public void deleteResultado_exame(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_RESULTADO_EXAME_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public boolean updateResultado_exame(Resultado_exame entidade) throws SQLException {
+	public void updateResultado_exame(Resultado_exame entidade) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(UPDATE_RESULTADO_EXAME_SQL)) {
 			statement.setTimestamp(1, new Timestamp(entidade.getDt_exame().getTime()));
 			statement.setString(2, entidade.getValor());
@@ -143,7 +158,8 @@ public class Resultado_exameDAO extends ConexaoDB {
 
 			statement.setLong(5, entidade.getId());
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 			
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

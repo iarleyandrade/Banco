@@ -19,7 +19,7 @@ public class TesteTipo_exame {
         System.out.println(exameDAO.count());
 
         //salva
-        Tipo_exame tipoExame = new Tipo_exame("A descrição é um teste", "Observação: testando");
+        Tipo_exame tipoExame = new Tipo_exame("A descrição é uma descrição", "Observação: observo");
         servicoTipoExame.salvar(tipoExame);
 
         //buscar por ID
@@ -27,7 +27,7 @@ public class TesteTipo_exame {
         System.out.println(tipoExame2);
 
         //Update
-        tipoExame.setDescricao("nova descrição");
+        tipoExame.setDescricao("é nova descrição");
         exameDAO.updateTipo_exame(tipoExame);
         tipoExame = exameDAO.findById(2);
         System.out.println(tipoExame);

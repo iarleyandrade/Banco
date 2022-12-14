@@ -26,6 +26,9 @@ public class ExameDAO extends ConexaoDB {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -52,6 +55,9 @@ public class ExameDAO extends ConexaoDB {
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -70,6 +76,9 @@ public class ExameDAO extends ConexaoDB {
 			while (rs.next()) {
 				entidade = new Exame((int) rs.getLong("id"), rs.getString("descricao"), rs.getString("metodo"), rs.getInt("tipo_exame_id"), rs.getInt("material_exame_id"));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -93,6 +102,9 @@ public class ExameDAO extends ConexaoDB {
 
 				entidade = new Exame((int) id, descricao, metodo, tipo_exame_id, material_exame_id);
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -115,6 +127,9 @@ public class ExameDAO extends ConexaoDB {
 				
 				entidades.add(new Exame((int) id, descricao, metodo, tipo_exame_id, material_exame_id));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -123,11 +138,12 @@ public class ExameDAO extends ConexaoDB {
 		return entidades;
 	}
 
-	public boolean deleteExame(int id) throws SQLException {
+	public void deleteExame(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_EXAME_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -141,6 +157,9 @@ public class ExameDAO extends ConexaoDB {
 			statement.setInt(4, entidade.getMaterial_exame_id());
 			statement.setLong(5, entidade.getId());
 
+			statement.executeUpdate();
+			statement.getConnection().close();
+			
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}

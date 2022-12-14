@@ -26,6 +26,9 @@ public class ComposicaoDAO extends ConexaoDB {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -50,6 +53,9 @@ public class ComposicaoDAO extends ConexaoDB {
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -68,6 +74,9 @@ public class ComposicaoDAO extends ConexaoDB {
 			while (rs.next()) {
 				entidade = new Composicao((int) rs.getLong("id"), rs.getInt("exame_id"), rs.getInt("composicao_exame_id"), rs.getInt("valor_referencia_composicao_exame_id"));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -90,6 +99,9 @@ public class ComposicaoDAO extends ConexaoDB {
 				
 				entidade = new Composicao((int) id, exame_id, composicao_exame_id, valor_referencia_composicao_exame);
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -112,6 +124,8 @@ public class ComposicaoDAO extends ConexaoDB {
 				
 				entidades.add(new Composicao((int) id, exame_id, composicao_exame_id, valor_referencia_composicao_exame));
 			}
+			
+			preparedStatement.getConnection().close();
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -120,11 +134,12 @@ public class ComposicaoDAO extends ConexaoDB {
 		return entidades;
 	}
 
-	public boolean deleteComposicao(int id) throws SQLException {
+	public void deleteComposicao(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_COMPOSICAO_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -137,6 +152,9 @@ public class ComposicaoDAO extends ConexaoDB {
 			statement.setInt(3, entidade.getValor_referencia_composicao_exame());
 			
 			statement.setLong(4, entidade.getId());
+			
+			statement.executeUpdate();
+			statement.getConnection().close();
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

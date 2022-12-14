@@ -23,7 +23,7 @@ public class TesteConsulta_medica {
         System.out.println(consultaMedicaDAO.count());
 
         //salva
-        Consulta_medica consultaMedica = new Consulta_medica(dataUsuario, 1,1,"dqew54");
+        Consulta_medica consultaMedica = new Consulta_medica(dataUsuario, 1,1,"ttasde132");
         servicoConsultaMedica.salvar(consultaMedica);
 
         //buscar por ID
@@ -31,7 +31,7 @@ public class TesteConsulta_medica {
         System.out.println(tipoExame2);
 
         //Update
-        consultaMedica.setNm_atendimento("kjwn16");
+        consultaMedica.setNm_atendimento("virgo34");
         consultaMedicaDAO.updateConsulta_medica(consultaMedica);
         consultaMedica = consultaMedicaDAO.findById(2);
         System.out.println(consultaMedica);

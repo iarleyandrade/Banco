@@ -18,7 +18,7 @@ public class TesteContato {
         System.out.println(exameDAO.count());
 
         //salva
-        Contato contato = new Contato("40028922", 1);
+        Contato contato = new Contato("080090911", 1);
         servicoContato.salvar(contato);
 
         //buscar por ID
@@ -26,7 +26,7 @@ public class TesteContato {
         System.out.println(tipoExame2);
 
         //Update
-        contato.setTelefone("400298754");
+        contato.setTelefone("40028922");
         exameDAO.updateContato(contato);
         contato = exameDAO.findById(2);
         System.out.println(contato);

@@ -18,7 +18,7 @@ public class TesteMaterial_exame {
         System.out.println(materialExameDAO.count());
 
         //salva
-        Material_exame materialExame = new Material_exame("Material é esse", "obeservação: é um teste");
+        Material_exame materialExame = new Material_exame("Material é palheta", "obeservação: texxxte");
         servicoMaterialExame.salvar(materialExame);
 
         //buscar por ID
@@ -26,7 +26,7 @@ public class TesteMaterial_exame {
         System.out.println(tipoExame2);
 
         //Update
-        materialExame.setMaterial("Material tal");
+        materialExame.setMaterial("Material, violão");
         materialExameDAO.updateMaterial_exame(materialExame);
         materialExame = materialExameDAO.findById(2);
         System.out.println(materialExame);

@@ -18,7 +18,7 @@ public class TesteResponsavel_tecnico {
         System.out.println(responsavelTecnicoDAO.count());
 
         //salva
-        Responsavel_tecnico responsavelTecnico = new Responsavel_tecnico("Fulano de tal","ale-CE","Medico","LBC",1);
+        Responsavel_tecnico responsavelTecnico = new Responsavel_tecnico("Marcao da bike","For-CE","Medico","CVC",1);
         servicoResponsavelTecnico.salvar(responsavelTecnico);
 
         //buscar por ID
@@ -26,7 +26,7 @@ public class TesteResponsavel_tecnico {
         System.out.println(endereco2);
 
         //Update
-        responsavelTecnico.setNome("Novo nome");
+        responsavelTecnico.setNome("Carinha que mora logo ali");
         responsavelTecnicoDAO.updateResponsavel_tecnico(responsavelTecnico);
         responsavelTecnico = responsavelTecnicoDAO.findById(2);
         System.out.println(responsavelTecnico);

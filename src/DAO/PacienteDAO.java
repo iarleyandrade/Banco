@@ -27,6 +27,9 @@ public class PacienteDAO extends ConexaoDB {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -49,6 +52,9 @@ public class PacienteDAO extends ConexaoDB {
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -67,6 +73,9 @@ public class PacienteDAO extends ConexaoDB {
 			while (rs.next()) {
 				entidade = new Paciente((int) rs.getLong("id"), rs.getString("name"), rs.getDate("dt_nascimento"));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -87,6 +96,9 @@ public class PacienteDAO extends ConexaoDB {
 				Date dt_nascimento = rs.getDate("dt_nascimento");
 				entidade = new Paciente((int) id, name, dt_nascimento);
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -106,6 +118,9 @@ public class PacienteDAO extends ConexaoDB {
 				Date dt_nascimento = rs.getDate("dt_nascimento");
 				entidades.add(new Paciente((int) id, name, dt_nascimento));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -114,11 +129,12 @@ public class PacienteDAO extends ConexaoDB {
 		return entidades;
 	}
 
-	public boolean deletePaciente(int id) throws SQLException {
+	public void deletePaciente(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_PACIENTE_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -129,6 +145,9 @@ public class PacienteDAO extends ConexaoDB {
 			statement.setString(1, entidade.getName());
 			statement.setDate(2, (Date) entidade.getDt_nascimento());
 			statement.setLong(3, entidade.getId());
+			
+			statement.executeUpdate();
+			statement.getConnection().close();
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

@@ -18,7 +18,7 @@ public class TesteMedico {
         System.out.println(medicoDAO.count());
 
         //salva
-        Medico especialidade = new Medico("Fulano de tal","SDNDZ");
+        Medico especialidade = new Medico("Cicrano Almeida","SERGAD");
         servicoMedico.salvar(especialidade);
 
         //buscar por ID
@@ -26,7 +26,7 @@ public class TesteMedico {
         System.out.println(tipoExame2);
 
         //Update
-        especialidade.setNome("Cicrano de tal");
+        especialidade.setNome("Cicrano de Souza");
         medicoDAO.updateMedico(especialidade);
         especialidade = medicoDAO.findById(2);
         System.out.println(especialidade);

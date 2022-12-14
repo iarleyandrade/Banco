@@ -18,7 +18,7 @@ public class TesteLaboratorio {
         System.out.println(exameDAO.count());
 
         //salva
-        Laboratorio tipoExame = new Laboratorio("A descrição é um teste", "6116616", "6198478797", "1184847119", "nome qualquer");
+        Laboratorio tipoExame = new Laboratorio("A descrição é um ", "92837493", "0932490328", "8273487326", "Salvatore Leone instituto");
         servicoLaboratorio.salvar(tipoExame);
 
         //buscar por ID
@@ -26,7 +26,7 @@ public class TesteLaboratorio {
         System.out.println(tipoExame2);
 
         //Update
-        tipoExame.setDescricao("nova descrição");
+        tipoExame.setDescricao("a descrição nova é um");
         exameDAO.updateLaboratorio(tipoExame);
         tipoExame = exameDAO.findById(2);
         System.out.println(tipoExame);

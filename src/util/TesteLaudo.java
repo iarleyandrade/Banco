@@ -18,7 +18,7 @@ public class TesteLaudo {
         System.out.println(LaudoDAO.count());
 
         //salva
-        Laudo consultaMedica = new Laudo("WFEA7", "2022/12/10","dadSF4E",9);
+        Laudo consultaMedica = new Laudo("GP34VF", "2022/12/23","dadSF4E",9);
         servicoLaudo.salvar(consultaMedica);
 
         //buscar por ID
@@ -26,7 +26,7 @@ public class TesteLaudo {
         System.out.println(tipoExame2);
 
         //Update
-        consultaMedica.setCodigo("fwa4f3Sf");
+        consultaMedica.setCodigo("GGWPIZIDMAIS");
         LaudoDAO.updateLaudo(consultaMedica);
         consultaMedica = LaudoDAO.findById(2);
         System.out.println(consultaMedica);

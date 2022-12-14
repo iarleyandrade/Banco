@@ -21,7 +21,7 @@ public class TesteSolicitacao_exame {
         System.out.println(solicitacaoExameDAO.count());
 
         //salva
-        Solicitacao_exame solicitacaoExame = new Solicitacao_exame("WFEA7", dataUsuario, 1, 1, 1);
+        Solicitacao_exame solicitacaoExame = new Solicitacao_exame("NEYMAR", dataUsuario, 1, 1, 1);
         servicoSolicitacaoExame.salvar(solicitacaoExame);
 
         //buscar por ID
@@ -29,7 +29,7 @@ public class TesteSolicitacao_exame {
         System.out.println(tipoExame2);
 
         //Update
-        solicitacaoExame.setNm_prescrito("fwa4f3Sf");
+        solicitacaoExame.setNm_prescrito("1233443");
         solicitacaoExameDAO.updateSolicitacao_exame(solicitacaoExame);
         solicitacaoExame = solicitacaoExameDAO.findById(2);
         System.out.println(solicitacaoExame);

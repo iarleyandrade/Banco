@@ -24,7 +24,7 @@ public class TestePaciente {
         System.out.println(pacienteDAO.count());
 
         //salva
-        Paciente paciente = new Paciente("Fulano de tal", dataUsuario);
+        Paciente paciente = new Paciente("NPC qualquer", dataUsuario);
         servicoPaciente.salvar(paciente);
 
         //buscar por ID
@@ -32,7 +32,7 @@ public class TestePaciente {
         System.out.println(tipoExame2);
 
         //Update
-        paciente.setName("Cicrano de tal");
+        paciente.setName("um novo NPC qualquer");
         pacienteDAO.updatePaciente(paciente);
         paciente = pacienteDAO.findById(2);
         System.out.println(paciente);

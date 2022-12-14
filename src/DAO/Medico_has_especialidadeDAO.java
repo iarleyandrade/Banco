@@ -11,7 +11,7 @@ import model.Medico_has_especialidade;
 public class Medico_has_especialidadeDAO extends ConexaoDB {
 
 	private static final String INSERT_MEDICO_HAS_ESPECIALIDADE_SQL = "INSERT INTO medico_has_especialidade (especialista_id, medico_id) VALUES (?, ?);";
-	private static final String SELECT_MEDICO_HAS_ESPECIALIDADE_BY_ID = "SELECT id, especialista_id, medico_id FROM medico_has_especialidade WHERE id = ?";
+	private static final String SELECT_MEDICO_HAS_ESPECIALIDADE_BY_ID = "SELECT id, especialista_id, medico_id FROM medico_has_especialidade WHERE medico_id = ?";
 	private static final String SELECT_ALL_MEDICO_HAS_ESPECIALIDADE = "SELECT * FROM medico_has_especialidade;";
 	private static final String DELETE_MEDICO_HAS_ESPECIALIDADE_SQL = "DELETE FROM medico_has_especialidade WHERE id = ?;";
 	private static final String BUSCAR_POR_DESCRICAO_MEDICO_HAS_ESPECIALIDADE_SQL = "DELETE FROM medico_has_especialidade WHERE descricao = ?;";
@@ -26,6 +26,9 @@ public class Medico_has_especialidadeDAO extends ConexaoDB {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -48,6 +51,9 @@ public class Medico_has_especialidadeDAO extends ConexaoDB {
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -66,6 +72,9 @@ public class Medico_has_especialidadeDAO extends ConexaoDB {
 			while (rs.next()) {
 				entidade = new Medico_has_especialidade((int) rs.getLong("id"), rs.getInt("especialista_id"), rs.getInt("medico_id"));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -86,6 +95,9 @@ public class Medico_has_especialidadeDAO extends ConexaoDB {
 				int medico_id = rs.getInt("medico_id");
 				entidade = new Medico_has_especialidade((int) id, especialista_id, medico_id);
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -105,6 +117,8 @@ public class Medico_has_especialidadeDAO extends ConexaoDB {
 				int medico_id = rs.getInt("medico_id");
 				entidades.add(new Medico_has_especialidade((int) id, especialista_id, medico_id));
 			}
+			
+			preparedStatement.getConnection().close();
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -113,11 +127,12 @@ public class Medico_has_especialidadeDAO extends ConexaoDB {
 		return entidades;
 	}
 
-	public boolean deleteMedico_has_especialidade(int id) throws SQLException {
+	public void deleteMedico_has_especialidade(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_MEDICO_HAS_ESPECIALIDADE_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -128,6 +143,9 @@ public class Medico_has_especialidadeDAO extends ConexaoDB {
 			statement.setInt(1, entidade.getEspecialista_id());
 			statement.setInt(2, entidade.getMedico_id());
 			statement.setLong(3, entidade.getId());
+			
+			statement.executeUpdate();
+			statement.getConnection().close();
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

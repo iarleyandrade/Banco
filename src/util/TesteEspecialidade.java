@@ -18,7 +18,7 @@ public class TesteEspecialidade {
         System.out.println(especialidadeDAO.count());
 
         //salva
-        Especialidade especialidade = new Especialidade("Descrição: é um teste","Observação: é uma observação");
+        Especialidade especialidade = new Especialidade("Descrição: é só um teste boy","Observação: observando");
         servicoEspecialidade.salvar(especialidade);
 
         //buscar por ID
@@ -26,7 +26,7 @@ public class TesteEspecialidade {
         System.out.println(tipoExame2);
 
         //Update
-        especialidade.setDescricao("Descricao: é um teste de novo");
+        especialidade.setDescricao("Descricao: é um teste novo boooy");
         especialidadeDAO.updateEspecialidade(especialidade);
         especialidade = especialidadeDAO.findById(1);
         System.out.println(especialidade);

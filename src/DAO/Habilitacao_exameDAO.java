@@ -26,6 +26,9 @@ public class Habilitacao_exameDAO extends ConexaoDB {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -50,6 +53,9 @@ public class Habilitacao_exameDAO extends ConexaoDB {
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -68,6 +74,9 @@ public class Habilitacao_exameDAO extends ConexaoDB {
 			while (rs.next()) {
 				entidade = new Habilitacao_exame((int) rs.getLong("id"), rs.getString("observacao"), rs.getInt("custo"), rs.getInt("tipo_exame_id"), rs.getInt("laboratorio_id"));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -91,6 +100,9 @@ public class Habilitacao_exameDAO extends ConexaoDB {
 
 				entidade = new Habilitacao_exame((int) id, observacao, custo, tipo_exame_id, laboratorio_id);
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -112,6 +124,9 @@ public class Habilitacao_exameDAO extends ConexaoDB {
 				int laboratorio_id = rs.getInt("laboratorio_id");
 				entidades.add(new Habilitacao_exame((int) id, observacao, custo, tipo_exame_id, laboratorio_id));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -120,11 +135,12 @@ public class Habilitacao_exameDAO extends ConexaoDB {
 		return entidades;
 	}
 
-	public boolean deleteHabilitacao_exame(int id) throws SQLException {
+	public void deleteHabilitacao_exame(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_HABILITACAO_EXAME_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -136,7 +152,10 @@ public class Habilitacao_exameDAO extends ConexaoDB {
 			statement.setString(2, entidade.getObservacao());
 			statement.setInt(3, entidade.getTipo_exame_id());
 			statement.setInt(4, entidade.getLaboratorio_id());
-			statement.setLong(3, entidade.getId());
+			statement.setLong(5, entidade.getId());
+			
+			statement.executeUpdate();
+			statement.getConnection().close();
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

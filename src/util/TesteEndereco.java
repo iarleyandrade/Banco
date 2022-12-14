@@ -18,7 +18,7 @@ public class TesteEndereco {
         System.out.println(enderecoDAO.count());
 
         //salva
-        Endereco contato = new Endereco("rua fulano de tal", "102", "perto da padaria", "salgadinho", "625000","Bem ali city", 1);
+        Endereco contato = new Endereco("rua do balacobaco", "300", "perto do cheiro do queijo", "nunsei", "60420520","Gothan City", 1);
         servicoContato.salvar(contato);
 
         //buscar por ID
@@ -26,7 +26,7 @@ public class TesteEndereco {
         System.out.println(endereco2);
 
         //Update
-        contato.setRua("400298754");
+        contato.setRua("irineuuuu");
         enderecoDAO.updateEndereco(contato);
         contato = enderecoDAO.findById(2);
         System.out.println(contato);

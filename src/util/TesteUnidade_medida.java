@@ -18,7 +18,7 @@ public class TesteUnidade_medida {
         System.out.println(unidadeMedidaDAO.count());
 
         //salva
-        Unidade_medida unidadeMedida = new Unidade_medida("descricao: é um teste");
+        Unidade_medida unidadeMedida = new Unidade_medida("descricao: sim");
         servicoUnidadeMedida.salvar(unidadeMedida);
 
         //buscar por ID
@@ -26,7 +26,7 @@ public class TesteUnidade_medida {
         System.out.println(tipoExame2);
 
         //Update
-        unidadeMedida.setDescricao("Descricao: novo teste");
+        unidadeMedida.setDescricao("Descricao: novo descrição: não");
         unidadeMedidaDAO.updateUnidade_medida(unidadeMedida);
         unidadeMedida = unidadeMedidaDAO.findById(2);
         System.out.println(unidadeMedida);

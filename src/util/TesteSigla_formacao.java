@@ -18,7 +18,7 @@ public class TesteSigla_formacao {
         System.out.println(siglaFormacaoDAO.count());
 
         //salva
-        Sigla_formacao siglaFormacao = new Sigla_formacao("ACFSE");
+        Sigla_formacao siglaFormacao = new Sigla_formacao("UEFA");
         servicoSiglaFormacao.salvar(siglaFormacao);
 
         //buscar por ID
@@ -26,7 +26,7 @@ public class TesteSigla_formacao {
         System.out.println(endereco2);
 
         //Update
-        siglaFormacao.setSigla("KLCD");
+        siglaFormacao.setSigla("BRA");
         siglaFormacaoDAO.updateSigla_formacao(siglaFormacao);
         siglaFormacao = siglaFormacaoDAO.findById(2);
         System.out.println(siglaFormacao);

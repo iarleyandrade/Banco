@@ -26,6 +26,9 @@ public class Unidade_medidaDAO extends ConexaoDB {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -48,6 +51,9 @@ public class Unidade_medidaDAO extends ConexaoDB {
 			if (result.next()) {
 				entidade.setId(result.getLong(1));
 			}
+			
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -66,6 +72,8 @@ public class Unidade_medidaDAO extends ConexaoDB {
 			while (rs.next()) {
 				entidade = new Unidade_medida((int) rs.getLong("id"), rs.getString("descricao"));
 			}
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -86,6 +94,8 @@ public class Unidade_medidaDAO extends ConexaoDB {
 				
 				entidade = new Unidade_medida((int) id, descricao);
 			}
+			preparedStatement.getConnection().close();
+
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -105,6 +115,7 @@ public class Unidade_medidaDAO extends ConexaoDB {
 				
 				entidades.add(new Unidade_medida((int) id, descricao));
 			}
+			preparedStatement.getConnection().close();
 		} catch (SQLException e) {
 			printSQLException(e);
 		} catch (ClassNotFoundException e) {
@@ -113,11 +124,12 @@ public class Unidade_medidaDAO extends ConexaoDB {
 		return entidades;
 	}
 
-	public boolean deleteUnidade_medida(int id) throws SQLException {
+	public void deleteUnidade_medida(int id) throws SQLException {
 		try (PreparedStatement statement = prepararSQL(DELETE_UNIDADE_MEDIDA_SQL)) {
 			statement.setInt(1, id);
 
-			return statement.executeUpdate() > 0;
+			statement.executeUpdate();
+			statement.getConnection().close();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -128,6 +140,9 @@ public class Unidade_medidaDAO extends ConexaoDB {
 			statement.setString(1, entidade.getDescricao());
 			
 			statement.setLong(2, entidade.getId());
+			
+			statement.executeUpdate();
+			statement.getConnection().close();
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
